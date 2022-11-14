@@ -1,5 +1,12 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Engine, FreeCamera, HemisphericLight, MeshBuilder, Scene, Vector3 } from 'babylonjs';
+import { Engine, FilesInput, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, Tools, Vector3 } from 'babylonjs';
+import { OBJFileLoader } from 'babylonjs-loaders';
+import * as CANNON from 'cannon-es';
+import { tonemapPixelShader } from 'babylonjs/Shaders/tonemap.fragment';
+//import "babylonjs/loaders/glTF";
+//import "babylonjs/loaders/glTF";
+
+SceneLoader.RegisterPlugin(new OBJFileLoader());
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +15,18 @@ export class GameEngineService {
 
   engine ?: Engine;
   scene ?: Scene;
+  gizmoManager ?: GizmoManager;
 
   constructor() { }
   CreateCanvas(canvas : ElementRef<HTMLCanvasElement>) {
 
     this.engine = new Engine(canvas.nativeElement, true);
     this.scene =  new Scene(this.engine);
+    this.gizmoManager = new GizmoManager(this.scene);
+
+    this.gizmoManager.positionGizmoEnabled = true;
+    
+
     const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
 
     camera.setTarget(Vector3.Zero());
@@ -23,13 +36,14 @@ export class GameEngineService {
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), this.scene);
 
     light.intensity = 0.7;
-
-    const sphere = MeshBuilder.CreateSphere("sphere", {diameter: 2, segments: 32}, this.scene);
-
-    sphere.position.y = 1;
-    const ground = MeshBuilder.CreateGround("ground", {width: 6, height: 6}, this.scene);
-
     }
+
+    LoadModel(file : File) {
+      console.log(file.name);      
+      SceneLoader.ImportMesh("", "", file, this.scene, (meshes) => {
+        this.gizmoManager?.attachToMesh(meshes[0]);
+      });
+  }
 
     StartRenderLoop() {
       this.engine?.runRenderLoop(() => {
