@@ -1,0 +1,38 @@
+		LoadStructure
+			Load Json
+				Json Content Tracks
+					-> Skybox content dds
+					-> map track asset
+					-> checkpoints list
+						-> position x
+						-> position y
+						-> position z
+						-> rotation z
+						-> position
+					-> position Grid departure
+						-> position x
+						-> position y
+						-> position z
+						-> position nb
+					-> nb laps
+					-> pit position
+						-> id pit 
+						-> interior Pit Position
+							-> position X
+							-> position y
+							-> position z
+						->  Pit Stop Position 
+							-> position X
+							-> position y
+							-> position z
+				Json Content Race
+					Race Type
+					-> Grid Position
+						-> position nb
+						-> guidPlayer
+				Json Content Grids Car
+					->Teams
+						-> Team name
+						-> Drivers List
+							-> Guid Player
+							-> Guid Car
