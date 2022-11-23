@@ -1,6 +1,48 @@
 <p>track works!</p>
-<div class="dropZoneAsset">
-    <input type="file" #fileDropRef (change)="fileBrowseHandler($event)" />
-    <canvas id="canvas3D" #canvas3D style="width:100%;height:100%;touch-action:none;"></canvas>
+<div class="row">
+<nav class="navbar bg-light">
+    <div class="container-fluid">
+      <span class="navbar-brand mb-0 h1">Navbar</span>
+    </div>
+  </nav>
+</div>
+  <div class="row">
+    <nav class="navbar bg-light col-1">
+        <div class="container-fluid justify-content-center">
+        <ul class="navbar-nav">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </ul>
+        </div>
+      </nav>
+      <nav class="navbar bg-light col-1">
+        <div class="container-fluid justify-content-center">
+        <ul class="navbar-nav">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </ul>
+        </div>
+      </nav>      
+    <div class="dropZoneAsset col">
+        <input type="file" #fileDropRef (change)="fileBrowseHandler($event)" style="display: none;"/>
+        <canvas id="canvas3D" #canvas3D style="width:100%;height:100%;touch-action:none;"></canvas>
+    </div>
+    <nav class="navbar bg-light col-1">
+        <div class="container-fluid justify-content-center">
+        <ul class="navbar-nav">
+            <button class="btn btn-outline-success" type="submit">Right</button>
+            <button class="btn btn-outline-success" type="submit">Right</button>
+            <button class="btn btn-outline-success" type="submit">Right</button>
+            <button class="btn btn-outline-success" type="submit">Right</button>
+            <button class="btn btn-outline-success" type="submit">Right</button>
+        </ul>
+        </div>
+      </nav>
 </div>
 
