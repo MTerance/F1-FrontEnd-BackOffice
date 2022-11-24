@@ -22,4 +22,10 @@ export class TrackComponent implements OnInit {
   ngAfterViewInit() {
     this.gameEngineService.StartRenderLoop();
   }
+
+  fileBrowseHandler(eventTarget : Event) {
+    const file = (eventTarget.target as HTMLInputElement).files![0];
+      console.log(file.name);
+      this.gameEngineService.LoadModel(file);
+    }  
 }
