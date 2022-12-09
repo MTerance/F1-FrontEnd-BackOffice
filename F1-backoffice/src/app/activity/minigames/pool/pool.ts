@@ -1,4 +1,4 @@
-import { Mesh } from "babylonjs/index";
+import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { MiniGameState } from "../IMiniGame";
 import{IMiniGame} from "../IMiniGame";
 
@@ -22,7 +22,6 @@ export class PoolTable {
         this.killBox = [];
     }
 }
-
 
 
 export class Pool implements IMiniGame {
