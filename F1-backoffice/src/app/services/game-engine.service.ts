@@ -1,9 +1,9 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from 'babylonjs';
-import * as GUI from 'babylonjs-gui';
-import { OBJFileLoader } from 'babylonjs-loaders';
+import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from '@babylonjs/core';
+import "@babylonjs/loaders/glTF";
+import { OBJFileLoader } from '@Babylonjs/loaders/OBJ';
 import * as CANNON from 'cannon-es';
-import { AdvancedDynamicTexture, TextBlock } from 'babylonjs-gui';
+import { AdvancedDynamicTexture, TextBlock } from '@babylonjs/gui';
 
 //import { DebugLayer } from  '@babylonjs/core/Debug/debugLayer';
 //import { Inspector }from '@babylonjs/inspector';
@@ -22,7 +22,7 @@ export class GameEngineService {
   scene ?: Scene;
   gizmoManager ?: GizmoManager;
   physicsViewer ?: PhysicsViewer;
-  ui?: GUI.AdvancedDynamicTexture;
+  ui?: AdvancedDynamicTexture;
 
   constructor() { }
   CreateCanvas(canvas : ElementRef<HTMLCanvasElement>) {
@@ -40,7 +40,7 @@ export class GameEngineService {
 
     camera.attachControl(canvas.nativeElement, true);
 
-    this.ui = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.scene);
+    this.ui = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.scene);
 
     var test = new TextBlock();
     test.text = "Hello World";
