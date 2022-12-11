@@ -1,9 +1,13 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from 'babylonjs';
-import { OBJFileLoader } from 'babylonjs-loaders';
+import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from '@babylonjs/core';
+import "@babylonjs/loaders/glTF";
+import { OBJFileLoader } from '@Babylonjs/loaders/OBJ';
 import * as CANNON from 'cannon-es';
-import { tonemapPixelShader } from 'babylonjs/Shaders/tonemap.fragment';
-import { AssetManagerModule } from '../asset-manager/asset-manager.module';
+import { AdvancedDynamicTexture, TextBlock } from '@babylonjs/gui';
+
+//import { DebugLayer } from  '@babylonjs/core/Debug/debugLayer';
+//import { Inspector }from '@babylonjs/inspector';
+
 //import "babylonjs/loaders/glTF";
 //import "babylonjs/loaders/glTF";
 
@@ -18,6 +22,7 @@ export class GameEngineService {
   scene ?: Scene;
   gizmoManager ?: GizmoManager;
   physicsViewer ?: PhysicsViewer;
+  ui?: AdvancedDynamicTexture;
 
   constructor() { }
   CreateCanvas(canvas : ElementRef<HTMLCanvasElement>) {
@@ -27,12 +32,24 @@ export class GameEngineService {
     this.gizmoManager = new GizmoManager(this.scene);
 
     this.gizmoManager.positionGizmoEnabled = true;
+    this.gizmoManager.scaleGizmoEnabled = true;
     
     const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
 
     camera.setTarget(Vector3.Zero());
 
     camera.attachControl(canvas.nativeElement, true);
+
+    this.ui = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.scene);
+
+    var test = new TextBlock();
+    test.text = "Hello World";
+    test.color = "white";
+    test.fontSize = 24;
+    this.ui.addControl(test);
+
+
+
 
 
     window.CANNON = CANNON;
