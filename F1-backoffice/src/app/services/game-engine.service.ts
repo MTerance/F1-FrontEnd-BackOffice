@@ -32,7 +32,8 @@ export class GameEngineService {
     this.gizmoManager = new GizmoManager(this.scene);
 
     this.gizmoManager.positionGizmoEnabled = true;
-    this.gizmoManager.scaleGizmoEnabled = true;
+    this.gizmoManager.scaleGizmoEnabled = false;
+    this.gizmoManager.boundingBoxGizmoEnabled = true;
     
     const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
 
