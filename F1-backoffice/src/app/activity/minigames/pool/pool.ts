@@ -5,14 +5,29 @@ import{IMiniGame} from "../IMiniGame";
 
 
 export enum PoolGameState {
-    CHANGE_DIRECTION,
-    ADJUST_POWER,
-    WAITING_FOR_BALL,
-    CHANGE_PLAYER,
+    NONE,
+    WAIT,
+    POSITION_BALL,
+    DIRECTION_BALL,
+    POWER_BALL,
+    WAITING_SHOT_RESULT_AND_CHECK_RULES,
+    CHECK_RULES,
+    ENDGAME
 };
 
 
-
+export class PoolBall {
+    
+        mesh !: Mesh;
+        id !: number;
+        position !: number;
+        color !: number;
+        isPotted : boolean;
+    
+        constructor() {
+            this.isPotted = false;
+        }
+}
 
 export class PoolTable {
 
@@ -23,6 +38,31 @@ export class PoolTable {
     }
 }
 
+
+
+export class PoolGameProcess {
+
+    gamePhases : PoolGameState[];
+    currentPhase : PoolGameState;
+
+
+    constructor() {
+        this.gamePhases = [];
+        this.currentPhase = PoolGameState.NONE;
+    }
+
+    SetupGameProcess() : void {
+        this.gamePhases.push(PoolGameState.WAIT);
+        this.gamePhases.push(PoolGameState.POSITION_BALL);
+        this.gamePhases.push(PoolGameState.DIRECTION_BALL);
+        this.gamePhases.push(PoolGameState.POWER_BALL);
+        this.gamePhases.push(PoolGameState.WAITING_SHOT_RESULT_AND_CHECK_RULES);
+        this.gamePhases.push(PoolGameState.CHECK_RULES);
+        this.gamePhases.push(PoolGameState.ENDGAME);
+    }
+
+    
+}
 
 export class Pool implements IMiniGame {
 
@@ -89,6 +129,4 @@ export class Pool implements IMiniGame {
     PrepareChangePlayer(): void {
         throw new Error("Method PrepareChangePlayer not implemented.");
     }
-
-
 }
