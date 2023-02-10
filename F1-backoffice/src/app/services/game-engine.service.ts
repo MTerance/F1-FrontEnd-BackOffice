@@ -88,7 +88,7 @@ export class GameEngineService {
 
     faceUvMaterial[0] = new Vector4(0, 0, 0.33, 0.16);
 
-    const sphere = MeshBuilder.CreateSphere("sphere", {diameter: 0.4,frontUVs : faceUvMaterial[0] }, this.scene);
+    const sphere = MeshBuilder.CreateSphere("sphere", {diameter: 0.33,frontUVs : faceUvMaterial[0] }, this.scene);
 
 
     const textureBallPool = new Texture("./assets/pool/1Ball.png", this.scene) ;
