@@ -65,6 +65,10 @@ export class GameEngineService {
     light.intensity = 0.7;
     }
 
+    GetFullScreenUI() : AdvancedDynamicTexture {
+      return this.ui!;
+    }
+
 
     CreateExampleScene() {
 
