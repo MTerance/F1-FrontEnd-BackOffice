@@ -9,6 +9,7 @@ import { PoolBuilderComponent } from './activity/minigames/pool/pool-builder/poo
 import { DartBuilderComponent } from './activity/minigames/dart/dart-builder/dart-builder.component';
 import { UnoBuilderComponent } from './activity/minigames/uno/uno-builder/uno-builder.component';
 import { PanelComponentComponent } from './components/panel-component/panel-component.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { PanelComponentComponent } from './components/panel-component/panel-comp
     DartBuilderComponent,
     UnoBuilderComponent,
     PanelComponentComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
