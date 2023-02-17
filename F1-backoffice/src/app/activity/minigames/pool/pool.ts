@@ -118,10 +118,7 @@ export class Pool implements IMiniGame {
 
     CreateMainUIDisplay(){
        var ui = this.gameEngineService.GetFullScreenUI();
-       
-         var panel = new BABYLON.GUI.StackPanel();
-
-         //
+       // 
     }
 
     PrepareChangeDirection(): void {
