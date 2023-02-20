@@ -10,6 +10,7 @@ import { DartBuilderComponent } from './activity/minigames/dart/dart-builder/dar
 import { UnoBuilderComponent } from './activity/minigames/uno/uno-builder/uno-builder.component';
 import { PanelComponentComponent } from './components/panel-component/panel-component.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ModalComponent } from './components/modal/modal.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
