@@ -1,4 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";
 import { OBJFileLoader } from '@Babylonjs/loaders/OBJ';
@@ -122,6 +123,13 @@ export class GameEngineService {
         this.gizmoManager?.attachToMesh(sphere);
     }
 
+    SetGizmoSphereOnMeshById(idMesh : string)
+    {
+      var mesh = this.scene?.getMeshById(idMesh)
+      if (mesh)
+        this.gizmoManager?.attachToMesh(mesh);
+    }
+
 
 
     LoadModel(file : File) {
@@ -130,6 +138,13 @@ export class GameEngineService {
         this.gizmoManager?.attachToMesh(meshes[0]);
       });
   }
+
+    createGizmoModel(idModel : string) : Mesh
+    {
+      var mesh = MeshBuilder.CreateSphere(idModel, {diameter: 0.33, }, this.scene);
+      mesh.position = new Vector3(0,11,0);
+      return mesh;
+    }
 
     StartRenderLoop() {
       this.engine?.runRenderLoop(() => {
