@@ -29,4 +29,11 @@ export class PoolBuilderComponent implements OnInit {
     this.gameEngineService.testDisplayGizmoSphere();
   }
 
+  addNewPocketTablePosition() {
+
+  }
+
+  addNewBallPosition(){
+
+  }
 }
