@@ -1,4 +1,5 @@
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
+import { GameEngineService } from 'src/app/services/game-engine.service';
 import { MiniGameState } from "../IMiniGame";
 import{IMiniGame} from "../IMiniGame";
 
@@ -15,18 +16,26 @@ export enum PoolGameState {
     ENDGAME
 };
 
+export enum TypePoolBall {
+    WHITE,
+    BLACK,
+    FULL,
+    STRIPE
+}
 
 export class PoolBall {
     
-        mesh !: Mesh;
-        id !: number;
-        position !: number;
-        color !: number;
-        isPotted : boolean;
-    
-        constructor() {
-            this.isPotted = false;
-        }
+    mesh !: Mesh;
+    id !: number;
+    position !: number;
+    numero !: number;
+    color !: number;
+    type !: TypePoolBall;
+    isPotted : boolean;
+
+    constructor() {
+        this.isPotted = false;
+    }
 }
 
 export class PoolTable {
@@ -59,17 +68,36 @@ export class PoolGameProcess {
         this.gamePhases.push(PoolGameState.WAITING_SHOT_RESULT_AND_CHECK_RULES);
         this.gamePhases.push(PoolGameState.CHECK_RULES);
         this.gamePhases.push(PoolGameState.ENDGAME);
-    }
-
-    
+    }    
 }
+
+export class Asset3D {
+
+        id ?: number;
+        name ?: string;
+        nameFile ?: string;
+        path ?: string;
+        type ?: string;
+}
+
+export class PoolGameInformation {
+
+    poolTableAsset ?: Asset3D;
+    poolBallsAssets ?: Asset3D[];
+    poolWhiteBallAsset ?: Asset3D;
+    poolBlackBallAsset ?: Asset3D;
+}
+
+
 
 export class Pool implements IMiniGame {
 
     stateMiniGame : MiniGameState;
+    gameEngineService : GameEngineService;
 
-    public constructor() {
+    public constructor(gameEngineService : GameEngineService) {
         this.stateMiniGame = MiniGameState.LOADING;
+        this.gameEngineService = gameEngineService;
     }
 
     Load(): void {
@@ -88,6 +116,10 @@ export class Pool implements IMiniGame {
         return this.stateMiniGame; 
     }
 
+    CreateMainUIDisplay(){
+       var ui = this.gameEngineService.GetFullScreenUI();
+       // 
+    }
 
     PrepareChangeDirection(): void {
         // load orbit camera
