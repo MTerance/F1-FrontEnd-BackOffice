@@ -99,6 +99,32 @@ export class PoolLoader {
         return idMesh;
     }
 
+    hasBalls() : boolean {
+        let count = 0;
+        for (var ball in this.balls)
+        {
+            if (this.balls.hasOwnProperty(ball))
+            count++;
+        }
+        if (count > 0)
+            return true;
+        return false;
+    }
+
+
+    hasPockets() : boolean {
+        let count = 0;
+        for (var pocket in this.pockets)
+        {
+            if (this.pockets.hasOwnProperty(pocket))
+            count++;
+        }
+        if (count > 0)
+            return true;
+        return false 
+    }
+
+
     AddNewPocketTable() : string
     {
         var nameMesh = "pocket_";
@@ -112,6 +138,7 @@ export class PoolLoader {
         }
         while ((idMesh in this.poolConfig.killBox));
         this.poolConfig.killBox[idMesh] = new stateMeshObject();
+        console.log( this.poolConfig.killBox);
         console.log(idMesh);
         return idMesh;
     }

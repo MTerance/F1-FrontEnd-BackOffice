@@ -1,6 +1,78 @@
 <p>pool-builder works!</p>
 
-<canvas id="canvas3D" #canvas3D style="width:100%;height:100%;touch-action:none;"> </canvas>
+<div class="mb-3 row">
+  <div class="col-sm-6">
+<canvas id="canvas3D" #canvas3D style="width:100%;touch-action:none;"> </canvas>
+  </div>
+<div class="card col-sm-3">
+  <h5 class="card-header">Pockets of pool table</h5>
+  <h5 class="card-title">pocket table</h5>
+  <div class="card-body">
+    <table *ngIf="poolLoader.hasPockets()" class="table table-sm">
+      <thead class="table-dark">
+        <tr>
+          <th> X </th>
+          <th> Y </th>
+          <th> Z </th>          
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <ng-container *ngFor="let pocket of poolLoader.pockets | keyvalue">
+          <tr>
+            <th>
+                <input class="form-control" type="text" placeholder="X" [value]="pocket.value!.position.x" readonly>
+            </th>
+            <th>
+                <input class="form-control" type="text" placeholder="Y" [value]="pocket.value!.position.y" readonly>
+            </th>
+            <th>
+                <input class="form-control" type="text" placeholder="Z" [value]="pocket.value!.position.z" readonly>
+            </th>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+    <div class="card-footer text-muted">
+      <a class="btn btn-primary" (click)="addNewPocketTablePosition()" >Add pocket</a>
+    </div>
+</div>
+<div class="card col-sm-3">
+  <h5 class="card-header">Balls position</h5>
+  <div class="card-body">
+    <h5 class="card-title">Ball position</h5>
+    <table *ngIf="poolLoader.hasBalls()" class="table table-sm">
+      <thead class="table-dark">
+        <tr>
+          <th> X </th>
+          <th> Y </th>
+          <th> Z </th>          
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <ng-container *ngFor="let ball of poolLoader.balls | keyvalue">
+          <tr>
+            <th>
+                <input class="form-control" type="text" placeholder="X" [value]="ball.value!.position.x" readonly>
+            </th>
+            <th>
+                <input class="form-control" type="text" placeholder="Y" [value]="ball.value!.position.y" readonly>
+            </th>
+            <th>
+                <input class="form-control" type="text" placeholder="Z" [value]="ball.value!.position.z" readonly>
+            </th>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+
+  </div>
+    <div class="card-footer text-muted">
+      <a class="btn btn-primary" (click)="addNewBallPosition()" >Add new ball position</a>
+    </div>
+</div>
+</div>
+
 
 <div class="mb-3 row">
     <label class="col-sm-3">Pool Table</label>
@@ -17,38 +89,5 @@
 </div>
 
 <div class="mb-3 row">
-<div class="card col-sm-3">
-    <h5 class="card-header">Pockets of pool table</h5>
-    <div class="card-body">
-      <h5 class="card-title">Pockets</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <ng-container *ngFor="let pocket of poolLoader.pockets | keyvalue">
-        <div class="row">
-      <div class="col-sm-4">
-        <input class="form-control" type="text" placeholder="X" ng-value="pocket.value!.name">
-      </div>
-      <div class="col-sm-4">
-        <input class="form-control" type="text" placeholder="Y" ng-value="pocket.value!.position.y">
-      </div>
-      <div class="col-sm-4">
-        <input class="form-control" type="text" placeholder="Y" ng-value="pocket.value!.position.z">
-      </div>
-        </div>
-        </ng-container>
-    </div>
-      <div class="card-footer text-muted">
-        <a class="btn btn-primary" (click)="addNewPocketTablePosition()" >Add pocket</a>
-      </div>
-  </div>
 
-  <div class="card col-sm-3">
-    <h5 class="card-header">Balls position</h5>
-    <div class="card-body">
-      <h5 class="card-title">Ball position</h5>
-
-    </div>
-      <div class="card-footer text-muted">
-        <a class="btn btn-primary" (click)="addNewBallPosition()" >Add new ball position</a>
-      </div>
-  </div>
 </div>
