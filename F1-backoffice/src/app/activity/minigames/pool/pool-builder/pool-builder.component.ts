@@ -40,6 +40,7 @@ export class PoolBuilderComponent implements OnInit {
    var mesh = this.gameEngineService.createGizmoModel(nameMesh);
    this.poolLoader.pockets[nameMesh] = mesh;
    this.gameEngineService.SetGizmoSphereOnMeshById(nameMesh);
+   console.log(mesh);
   }
 
   addNewBallPosition() {
