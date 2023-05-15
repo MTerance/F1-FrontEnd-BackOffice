@@ -1,89 +1,98 @@
 <p>pool-builder works!</p>
 
-<div class="mb-3 row">
+<div class="row">
   <div class="col-sm-6">
-<canvas id="canvas3D" #canvas3D style="width:100%;touch-action:none;"> </canvas>
+    <canvas id="canvas3D" #canvas3D style="width:100%;touch-action:none;"> </canvas>
   </div>
-<div class="card col-sm-3">
-  <h5 class="card-header">Pockets of pool table</h5>
-  <h5 class="card-title">pocket table</h5>
-  <div class="card-body">
-    <table *ngIf="poolLoader.hasPockets()" class="table table-sm">
-      <thead class="table-dark">
-        <tr>
-          <th> X </th>
-          <th> Y </th>
-          <th> Z </th>
-          <th> Actions </th>             
-        </tr>
-      </thead>
-      <tbody class="table-group-divider">
-        <ng-container *ngFor="let pocket of poolLoader.pockets | keyvalue">
-          <tr>
-            <th>
-                <input class="form-control" type="text" placeholder="X" [value]="pocket.value!.position.x" readonly>
-            </th>
-            <th>
-                <input class="form-control" type="text" placeholder="Y" [value]="pocket.value!.position.y" readonly>
-            </th>
-            <th>
-                <input class="form-control" type="text" placeholder="Z" [value]="pocket.value!.position.z" readonly>
-            </th>
-            <th>
-              <a class="btn btn-danger" (click)="addNewPocketTablePosition(pocket.idMesh)" >Add pocket</a>
-          </th>            
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-  </div>
-    <div class="card-footer text-muted">
-      <a class="btn btn-primary" (click)="addNewPocketTablePosition()" >Add pocket</a>
-    </div>
-</div>
-<div class="card col-sm-3">
-  <h5 class="card-header">Balls position</h5>
-  <div class="card-body">
-    <h5 class="card-title">Ball position</h5>
-    <table *ngIf="poolLoader.hasBalls()" class="table table-sm">
-      <thead class="table-dark">
-        <tr>
-          <th> X </th>
-          <th> Y </th>
-          <th> Z </th>          
-        </tr>
-      </thead>
-      <tbody class="table-group-divider">
-        <ng-container *ngFor="let ball of poolLoader.balls | keyvalue">
-          <tr>
-            <th>
-                <input class="form-control" type="text" placeholder="X" [value]="ball.value!.position.x" readonly>
-            </th>
-            <th>
-                <input class="form-control" type="text" placeholder="Y" [value]="ball.value!.position.y" readonly>
-            </th>
-            <th>
-                <input class="form-control" type="text" placeholder="Z" [value]="ball.value!.position.z" readonly>
-            </th>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
-
-  </div>
-    <div class="card-footer text-muted">
-      <a class="btn btn-primary" (click)="addNewBallPosition()" >Add new ball position</a>
-    </div>
-</div>
-</div>
-
-
-<div class="mb-3 row">
-    <label class="col-sm-3">Pool Table</label>
-    <div class="col-sm-9">
+  <div class="card col-sm-6">
+    <div class="m-1 row">
+      <label class="col-sm-3">Pool Table</label>
+      <div class="col-sm-9">
         <input class="form-control" type="text" placeholder="..." disabled>
+      </div>
     </div>
+    <div class="m-1 row">
+      <div class="card mr-2 col-sm-6">
+        <h5 class="card-header">Pockets of pool table</h5>
+        <h5 class="card-title">pocket table</h5>
+        <div class="card-body">
+          <table *ngIf="poolLoader.hasPockets()" class="table table-sm">
+            <thead class="table-dark">
+              <tr>
+                <th> X </th>
+                <th> Y </th>
+                <th> Z </th>
+                <th> Actions </th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <ng-container *ngFor="let pocket of poolLoader.pockets | keyvalue">
+                <tr>
+                  <th>
+                      <input class="form-control" type="text" placeholder="X" [value]="pocket.value!.position.x" readonly>
+                  </th>
+                  <th>
+                      <input class="form-control" type="text" placeholder="Y" [value]="pocket.value!.position.y" readonly>
+                  </th>
+                  <th>
+                      <input class="form-control" type="text" placeholder="Z" [value]="pocket.value!.position.z" readonly>
+                  </th>
+                  <th>
+                    <a class="btn btn-danger" (click)="poolLoader.deletePocketTable(pocket.key)" >Add pocket</a>
+                </th>            
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+          <div class="card-footer text-muted">
+            <a class="btn btn-primary" (click)="addNewPocketTablePosition()" >Add pocket</a>
+          </div>
+      </div>
+      <div class="card ml-2 col-sm-6">
+        <h5 class="card-header">Balls position</h5>
+        <div class="card-body">
+          <h5 class="card-title">Ball position</h5>
+          <table *ngIf="poolLoader.hasBalls()" class="table table-sm">
+            <thead class="table-dark">
+              <tr>
+                <th> X </th>
+                <th> Y </th>
+                <th> Z </th>
+                <th> Actions </th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <ng-container *ngFor="let ball of poolLoader.balls | keyvalue">
+                <tr>
+                  <th>
+                      <input class="form-control" type="text" placeholder="X" [value]="ball.value!.position.x" readonly>
+                  </th>
+                  <th>
+                      <input class="form-control" type="text" placeholder="Y" [value]="ball.value!.position.y" readonly>
+                  </th>
+                  <th>
+                      <input class="form-control" type="text" placeholder="Z" [value]="ball.value!.position.z" readonly>
+                  </th>
+                  <th>
+                    <a class="btn btn-danger" (click)="poolLoader.deleteBallPosition(ball.key)" >
+                      <svg class="bi bi-x" aria-hidden="true" >
+                      </svg>
+                    </a>
+                </th>            
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>  
+        </div>
+        <div class="card-footer text-muted">
+          <a class="btn btn-primary" (click)="addNewBallPosition()" >Add new ball position</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 <div class="mb-3 row">
     <label class="col-sm-3">Pool Balls</label>

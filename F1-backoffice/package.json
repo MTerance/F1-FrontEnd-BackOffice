@@ -26,6 +26,7 @@
     "@popperjs/core": "^2.11.6",
     "babylonjs-gltf2interface": "^5.32.1",
     "bootstrap": "^5.2.2",
+    "bootstrap-icons": "^1.10.5",
     "cannon": "^0.6.2",
     "cannon-es": "^0.20.0",
     "popper": "^1.0.1",
