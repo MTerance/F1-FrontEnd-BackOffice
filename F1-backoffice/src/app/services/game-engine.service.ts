@@ -13,11 +13,19 @@ import { ActionManager } from '@babylonjs/core/Actions/actionManager';
 //import "babylonjs/loaders/glTF";
 //import "babylonjs/loaders/glTF";
 
+export enum GizmoType {
+  Sphere,
+  Cylinder,
+  Cube,
+  Mesh
+}
+
 SceneLoader.RegisterPlugin(new OBJFileLoader());
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class GameEngineService {
 
   engine ?: Engine;
@@ -139,12 +147,41 @@ export class GameEngineService {
       });
   }
 
-    createGizmoModel(idModel : string) : Mesh
+    createGizmoModel(idModel : string, gizmoType : GizmoType) : Mesh
     {
-      var mesh = MeshBuilder.CreateSphere(idModel, {diameter: 0.33, }, this.scene);
-      mesh.position = new Vector3(0,11,0);
+      let mesh !: Mesh;
+      switch (gizmoType) {
+        case GizmoType.Sphere:
+          mesh = MeshBuilder.CreateSphere(idModel, {diameter: 0.33, }, this.scene);
+          mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.SphereImpostor, { mass: 0, friction: 1 }, this.scene);
+          break;
+        case GizmoType.Cylinder:
+          mesh = MeshBuilder.CreateCylinder(idModel, {diameter: 0.33, height: 0.33 }, this.scene);
+          mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.CylinderImpostor, { mass: 0, friction: 1 }, this.scene);
+          break;
+        case GizmoType.Cube:
+        default:
+          mesh = MeshBuilder.CreateBox(idModel, {width: 0.33, height: 0.33, depth: 0.33 }, this.scene);
+          mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.9 }, this.scene);
+          break;
+      }
+      mesh.checkCollisions = true;
+      mesh.position = new Vector3(0,6,0);
       return mesh;
     }
+
+    deleteMeshById(idMesh : string) : boolean
+    {
+      let mesh = this.scene?.getMeshById(idMesh);
+      if (mesh)
+      {
+        mesh.dispose();
+        return true;
+      }
+    return false;
+
+    }
+
 
     StartRenderLoop() {
       this.engine?.runRenderLoop(() => {

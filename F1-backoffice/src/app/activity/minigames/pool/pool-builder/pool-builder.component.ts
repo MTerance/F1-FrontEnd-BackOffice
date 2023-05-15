@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { GameEngineService } from 'src/app/services/game-engine.service';
+import { GameEngineService, GizmoType } from 'src/app/services/game-engine.service';
 import { PoolLoader } from '../poolLoader';
 
 @Component({
@@ -37,16 +37,25 @@ export class PoolBuilderComponent implements OnInit {
 
   addNewPocketTablePosition() {
    var nameMesh = this.poolLoader.AddNewPocketTable();
-   var mesh = this.gameEngineService.createGizmoModel(nameMesh);
+   var mesh = this.gameEngineService.createGizmoModel(nameMesh, GizmoType.Cylinder);
    this.poolLoader.pockets[nameMesh] = mesh;
    this.gameEngineService.SetGizmoSphereOnMeshById(nameMesh);
    console.log(mesh);
   }
+  deletePocketTablePosition(idMesh : string) { 
+    var nameMesh = this.poolLoader.deletePocketTable(idMesh);
+    this.gameEngineService.deleteMeshById(idMesh);
+  }
 
   addNewBallPosition() {
     var nameMesh = this.poolLoader.AddNewBallPosition();
-    var mesh = this.gameEngineService.createGizmoModel(nameMesh);
+    var mesh = this.gameEngineService.createGizmoModel(nameMesh, GizmoType.Sphere);
     this.poolLoader.balls[nameMesh] = mesh;
     this.gameEngineService.SetGizmoSphereOnMeshById(nameMesh);
+  }
+
+  deleteBallPosition(idMesh : string) { 
+    var nameMesh = this.poolLoader.deleteBallPosition(idMesh);
+    this.gameEngineService.deleteMeshById(idMesh);
   }
 }

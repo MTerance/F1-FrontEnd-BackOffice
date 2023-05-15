@@ -124,6 +124,13 @@ export class PoolLoader {
         return false 
     }
 
+    deletePocketTable(idMesh : string) : boolean {
+        return true;
+    }
+
+    deleteBallPosition(idMesh : string) : boolean {
+        return true;
+    }
 
     AddNewPocketTable() : string
     {
