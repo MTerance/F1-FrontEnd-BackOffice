@@ -13,7 +13,8 @@
         <tr>
           <th> X </th>
           <th> Y </th>
-          <th> Z </th>          
+          <th> Z </th>
+          <th> Actions </th>             
         </tr>
       </thead>
       <tbody class="table-group-divider">
@@ -28,6 +29,9 @@
             <th>
                 <input class="form-control" type="text" placeholder="Z" [value]="pocket.value!.position.z" readonly>
             </th>
+            <th>
+              <a class="btn btn-danger" (click)="addNewPocketTablePosition(pocket.idMesh)" >Add pocket</a>
+          </th>            
           </tr>
         </ng-container>
       </tbody>
