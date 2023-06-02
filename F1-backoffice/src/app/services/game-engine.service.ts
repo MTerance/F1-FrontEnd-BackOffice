@@ -1,6 +1,6 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
-import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from '@babylonjs/core';
+import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer, Matrix } from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";
 import { OBJFileLoader } from '@Babylonjs/loaders/OBJ';
 import * as CANNON from 'cannon-es';
@@ -118,8 +118,6 @@ export class GameEngineService {
     sphere.position = new Vector3(0, 10, 0);
     sphere.checkCollisions = true;
 
-    //this.gizmoManager?.onAttachedToMeshObservable.
-    //this.gizmoManager?.attachToMesh(sphere);
     console.log( sphere.uniqueId);
     console.log( sphere.id);    
 
@@ -147,7 +145,13 @@ export class GameEngineService {
       });
   }
 
-    createGizmoModel(idModel : string, gizmoType : GizmoType) : Mesh
+  DeleteModel(meshName : string) {
+    var mesh = this.scene?.getMeshByName(meshName);
+    if (mesh != null)
+      this.scene?.removeMesh(mesh,true);
+  }
+
+    createGizmoModel(idModel : string, gizmoType : GizmoType, modelParentName : string = "") : Mesh
     {
       let mesh !: Mesh;
       switch (gizmoType) {
@@ -165,6 +169,14 @@ export class GameEngineService {
           mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.9 }, this.scene);
           break;
       }
+
+      if (modelParentName && modelParentName !== "")
+      {
+        var parentMesh : Mesh = this.GetMeshById(modelParentName) as Mesh;
+        console.log(modelParentName);
+        parentMesh.addChild(mesh);
+
+      }
       mesh.checkCollisions = true;
       mesh.position = new Vector3(0,6,0);
       return mesh;
@@ -172,14 +184,40 @@ export class GameEngineService {
 
     deleteMeshById(idMesh : string) : boolean
     {
-      let mesh = this.scene?.getMeshById(idMesh);
+      let mesh = this.scene?.getMeshByName(idMesh);
       if (mesh)
       {
+//        this.gizmoManager?.onAttachedToMeshObservable.;
+        this.scene?.removeMesh(mesh,true);
         mesh.dispose();
         return true;
       }
     return false;
 
+    }
+
+    GetMeshById(idMesh : string) : Mesh | null
+    {
+      let mesh = this.scene?.getMeshByName(idMesh);
+      if (mesh)
+      {
+        return mesh as Mesh;
+      }
+    return null;
+    }
+
+    testTransformRelativePosition(targetName : string,sourceName : string)
+    {
+      var targetMesh = this.GetMeshById(targetName);
+      var sourceMesh = this.GetMeshById(sourceName);
+
+      if (targetMesh && sourceMesh)
+      {
+//        sourceMesh?.setPositionWithLocalVector(targetMesh?.position);
+          let m = new Matrix();
+          sourceMesh.computeWorldMatrix().invertToRef(m);
+          sourceMesh.position = Vector3.TransformCoordinates(targetMesh.position,m);
+      }
     }
 
 

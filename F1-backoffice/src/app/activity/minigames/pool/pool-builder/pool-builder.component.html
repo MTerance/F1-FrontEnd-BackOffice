@@ -14,9 +14,9 @@
     <div class="m-1 row">
       <div class="card mr-2 col-sm-6">
         <h5 class="card-header">Pockets of pool table</h5>
-        <h5 class="card-title">pocket table</h5>
         <div class="card-body">
-          <table *ngIf="poolLoader.hasPockets()" class="table table-sm">
+        <h5 class="card-title">pocket table</h5>
+          <table *ngIf="poolLoader.hasPockets()" class="table table-hover table-sm">
             <thead class="table-dark">
               <tr>
                 <th> X </th>
@@ -27,6 +27,11 @@
             </thead>
             <tbody class="table-group-divider">
               <ng-container *ngFor="let pocket of poolLoader.pockets | keyvalue">
+                <tr (click)="displayGizmoSphere(pocket.key)" class="table-secondary">
+                  <th colspan="4">
+                    <label> {{ pocket.key! }}</label>
+                  </th>
+                </tr>
                 <tr>
                   <th>
                       <input class="form-control" type="text" placeholder="X" [value]="pocket.value!.position.x" readonly>
@@ -37,8 +42,9 @@
                   <th>
                       <input class="form-control" type="text" placeholder="Z" [value]="pocket.value!.position.z" readonly>
                   </th>
-                  <th>
-                    <a class="btn btn-danger" (click)="poolLoader.deletePocketTable(pocket.key)" >Add pocket</a>
+                  <th>                    
+                    <a class="btn btn-light" (click)="testSetComponent(pocket.key)" ><i class="bi-arrow-bar-down"></i></a>
+                    <a class="btn btn-danger" (click)="deletePocketTablePosition(pocket.key)" ><i class="bi-x"></i></a>
                 </th>            
                 </tr>
               </ng-container>
@@ -46,7 +52,7 @@
           </table>
         </div>
           <div class="card-footer text-muted">
-            <a class="btn btn-primary" (click)="addNewPocketTablePosition()" >Add pocket</a>
+            <a class="btn btn-primary" (click)="addNewPocketTablePosition()" ><i class="bi-plus"></i></a>
           </div>
       </div>
       <div class="card ml-2 col-sm-6">
@@ -64,6 +70,11 @@
             </thead>
             <tbody class="table-group-divider">
               <ng-container *ngFor="let ball of poolLoader.balls | keyvalue">
+                <tr (click)="displayGizmoSphere(ball.key)">
+                  <th colspan="4">
+                    <label> {{ ball.key! }}</label>
+                  </th>
+                </tr>
                 <tr>
                   <th>
                       <input class="form-control" type="text" placeholder="X" [value]="ball.value!.position.x" readonly>
@@ -75,9 +86,10 @@
                       <input class="form-control" type="text" placeholder="Z" [value]="ball.value!.position.z" readonly>
                   </th>
                   <th>
-                    <a class="btn btn-danger" (click)="poolLoader.deleteBallPosition(ball.key)" >
-                      <svg class="bi bi-x" aria-hidden="true" >
-                      </svg>
+                    <a class="btn btn-light" (click)="testSetComponent(ball.key)" ><i class="bi-arrow-bar-down"></i></a>
+                    <a class="btn btn-danger" (click)="deleteBallPosition(ball.key)" >                      
+                      <i class="bi-x">
+                      </i>
                     </a>
                 </th>            
                 </tr>
@@ -86,7 +98,9 @@
           </table>  
         </div>
         <div class="card-footer text-muted">
-          <a class="btn btn-primary" (click)="addNewBallPosition()" >Add new ball position</a>
+          <a class="btn btn-primary" (click)="addNewBallPosition()" >
+            <i class="bi-plus"></i>
+          </a>
         </div>
       </div>
     </div>

@@ -147,7 +147,7 @@ export class Pool implements IMiniGame {
 
     PrepareWaitingForBall(): void {
 
-        // set tatget camera to pool table
+        // set target camera to pool table
 
         // set camera position to pool table
 

@@ -18,7 +18,7 @@ export class PoolBuilderComponent implements OnInit {
 
   constructor(private readonly gameEngineService : GameEngineService) {
 
-    this.poolLoader = new PoolLoader();
+    this.poolLoader = new PoolLoader(gameEngineService);
    }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class PoolBuilderComponent implements OnInit {
 
   addNewPocketTablePosition() {
    var nameMesh = this.poolLoader.AddNewPocketTable();
-   var mesh = this.gameEngineService.createGizmoModel(nameMesh, GizmoType.Cylinder);
+   var mesh = this.gameEngineService.createGizmoModel(nameMesh, GizmoType.Cylinder,"PoolTable");
    this.poolLoader.pockets[nameMesh] = mesh;
    this.gameEngineService.SetGizmoSphereOnMeshById(nameMesh);
    console.log(mesh);
@@ -49,13 +49,23 @@ export class PoolBuilderComponent implements OnInit {
 
   addNewBallPosition() {
     var nameMesh = this.poolLoader.AddNewBallPosition();
-    var mesh = this.gameEngineService.createGizmoModel(nameMesh, GizmoType.Sphere);
+    var mesh = this.gameEngineService.createGizmoModel(nameMesh, GizmoType.Sphere,"PoolTable");
     this.poolLoader.balls[nameMesh] = mesh;
     this.gameEngineService.SetGizmoSphereOnMeshById(nameMesh);
+  }
+
+  displayGizmoSphere(nameMesh : string)
+  {
+    this.gameEngineService.SetGizmoSphereOnMeshById(nameMesh);    
   }
 
   deleteBallPosition(idMesh : string) { 
     var nameMesh = this.poolLoader.deleteBallPosition(idMesh);
     this.gameEngineService.deleteMeshById(idMesh);
+  }
+
+  testSetComponent(idMesh : string)
+  {
+    this.gameEngineService.testTransformRelativePosition("PoolTable",idMesh);
   }
 }
