@@ -1,3 +1,4 @@
+import { state } from "@angular/animations";
 import { Vector3 } from "@babylonjs/core";
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import { filter } from "rxjs";
@@ -226,26 +227,53 @@ export class PoolLoader {
 
 type Rule<T> = (input: T) =>boolean;
 
-const All = <T>(...rules: Rule<T>[]) => (input : T) => rules.every((rule) => rule(input));
+const All = <T>(...rules: Rule<T>[]) => 
+    (input : T) => rules.every((rule) => rule(input));
 
-const Some = <T>(...rules: Rule<T>[]) => (input : T) => rules.some((rule) => rule(input));
+const Some = <T>(...rules: Rule<T>[]) => 
+    (input : T) => rules.some((rule) => rule(input));
 
-const One = <T>(...rules: Rule<T>[]) => (input : T) => rules.filter((r) => r(input)).length === 1;
+const One = <T>(...rules: Rule<T>[]) => 
+    (input : T) => rules.filter((r) => r(input)).length === 1;
 
-const None =  <T>(...rules: Rule<T>[]) => (input : T) => rules.filter((r) => r(input)).length === 0;
+const None =  <T>(...rules: Rule<T>[]) => 
+    (input : T) => rules.filter((r) => r(input)).length === 0;
 
 const ruleRunner =  
     <T,R>(rules: [R,Rule<T>][])=>
         (input: T) => 
             rules.filter(([_,rule]) => rule(input)).map((output,_) => output);
 
+type StatePoolFor15BallsGameRule = {
+    ballsPocketed : string[],
+    whiteBallsHasTouchedAnAnotherBall : boolean,
+    blackBallIsPocketed : boolean,
+    whiteBallIsPocketed : boolean,
+    timeIsUp : boolean
+};
+
+const hasAnyBallPocketed = () => (statePool : StatePoolFor15BallsGameRule) => 
+{
+   statePool.ballsPocketed && 
+   statePool.ballsPocketed.length > 0;
+}
+
+const hasColorBallPocketed = (color : string) => (statePool : StatePoolFor15BallsGameRule) => {
+    statePool.ballsPocketed && statePool.ballsPocketed.includes(color);
+}
+
+const Pool15BallsRules : [string,Rule<StatePoolFor15BallsGameRule>][] = [
+
+    ["WrongBallIsPocketed",None],
+    ["BlankShot",None],
+    ["BlackBallIsTouched",None],
+    ["WhiteBallIsPocketed",None],
+    ["CorrectBallIsPocketed",None],
+    ["AllBallsArePocketed",None]
+];
 
 
 
 
 
 
-
-
-
-            
