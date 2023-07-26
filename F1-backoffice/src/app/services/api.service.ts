@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
-const API_URL = 'http://localhost:3000/asset';
+const API_URL = 'https://localhost:7279/api';
 
 @Injectable({
   providedIn: 'root'
@@ -15,23 +15,23 @@ export class ApiService {
 
    }
 
-   getAll(): Observable<any> {
-    return this.httpClient.get(API_URL);
+   getAll(nameURL : string): Observable<any> {
+    return this.httpClient.get(`${API_URL}/${nameURL}`);
    }
 
-    get(id: any): Observable<any> {
-    return this.httpClient.get(`${API_URL}/${id}`);
+    get(nameURL : string,id: any): Observable<any> {
+    return this.httpClient.get(`${API_URL}/${nameURL}/${id}`);
     }
 
-    create(data: any): Observable<any> {
-    return this.httpClient.post(API_URL, data);
+    create(nameURL : string,data: any): Observable<any> {
+    return this.httpClient.post(`${API_URL}/${nameURL}`, data);
     }
 
-    update(id: any, data: any): Observable<any> { 
-    return this.httpClient.patch(`${API_URL}/${id}`, data);
+    update(nameURL : string,id: any, data: any): Observable<any> { 
+    return this.httpClient.patch(`${API_URL}/${nameURL}/${id}`, data);
     }
 
-    delete(id: any): Observable<any> {
-    return this.httpClient.delete(`${API_URL}/${id}`);
+    delete(nameURL : string,id: any): Observable<any> {
+    return this.httpClient.delete(`${API_URL}/${nameURL}/${id}`);
     }
 }
