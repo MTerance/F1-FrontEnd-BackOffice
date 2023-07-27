@@ -12,10 +12,18 @@ export class AddAssetsComponent implements OnInit {
 
    assets : asset[];
    files : fileHandle[];
+   assetToSend: asset;
 
   constructor() { 
     this.assets = [];
     this.files = [];
+    this.assetToSend = {
+      description : "",
+      id : 0,
+      name: "",
+      nameFile: "",
+      pathFile: "",      
+      };
   }
 
   ngOnInit(): void {
@@ -23,9 +31,13 @@ export class AddAssetsComponent implements OnInit {
   }
 
   onFilesDropped(files : fileHandle[]) : void {
-   console.log("TEST");
    this.files = files;
     console.log(this.files.length);
   }
+
+  SendAsset() : void {
+    
+  }
+
 
 }
