@@ -263,13 +263,14 @@ const hasColorBallPocketed = (color : string) => (statePool : StatePoolFor15Ball
 }
 
 const Pool15BallsRules : [string,Rule<StatePoolFor15BallsGameRule>][] = [
-
+/*
     ["WrongBallIsPocketed",None],
     ["BlankShot",None],
     ["BlackBallIsTouched",None],
     ["WhiteBallIsPocketed",None],
     ["CorrectBallIsPocketed",None],
     ["AllBallsArePocketed",None]
+    */
 ];
 
 
