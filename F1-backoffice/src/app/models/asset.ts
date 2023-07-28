@@ -1,6 +1,13 @@
 import { SafeUrl } from "@angular/platform-browser";
 
 
+export interface typeAsset {
+    id : number;
+    description : string;
+    name :string;    
+}
+
+
 export interface asset {
     id : number;
     name : string;

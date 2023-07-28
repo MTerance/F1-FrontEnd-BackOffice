@@ -1,19 +1,31 @@
-<nav class="navbar navbar-expand-lg bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-    </div>
-</nav>
-
 <i class="bi-search">number of assets : {{ assets.length }}</i>
-
         <div class="col-3">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add a new 3D asset
           </button> 
         </div>
 
-        <div class="col-3 p-3">
-
+        <div class="row col-12 p-3 align-items-center">
+          <div class="col-6">
+            <div class="form-check form-check-inline">
+              <input type="text" class="form-control" placeholder="search by name..." />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-check form-check-inline">          
+              <button type="button" class="btn btn-secondary" >
+                <i class="bi-search"> Search</i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 p-3 align-items-center">
+          <ng-container *ngFor="let assetType of typeAssets">
+            <div class="form-check-inline align-items-center">
+                <input class="form-check-input" type="checkbox"/>
+                <label class="form-check-label"> {{ assetType.name }} </label>
+            </div>
+          </ng-container>
         </div>
 
         <div class="row col-12 row-cols-1">

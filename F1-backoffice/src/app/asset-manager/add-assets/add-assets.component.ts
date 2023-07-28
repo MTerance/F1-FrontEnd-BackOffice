@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import assetsJson from './../../models/fakeDataAssets.json';
-import { asset, fileHandle } from 'src/app/models/asset';
+import { asset, fileHandle, typeAsset } from 'src/app/models/asset';
 @Component({
   selector: 'app-add-assets',
   templateUrl: './add-assets.component.html',
@@ -11,11 +11,17 @@ import { asset, fileHandle } from 'src/app/models/asset';
 export class AddAssetsComponent implements OnInit {
 
    assets : asset[];
+   typeAssets : typeAsset[];
    files : fileHandle[];
    assetToSend: asset;
 
+
+
+
+
   constructor() { 
     this.assets = [];
+    this.typeAssets = [];
     this.files = [];
     this.assetToSend = {
       description : "",
@@ -24,6 +30,7 @@ export class AddAssetsComponent implements OnInit {
       nameFile: "",
       pathFile: "",      
       };
+      this.getAssetType();
   }
 
   ngOnInit(): void {
@@ -35,8 +42,22 @@ export class AddAssetsComponent implements OnInit {
     console.log(this.files.length);
   }
 
+  getAssetType() : void {
+    this.typeAssets.push(
+        {
+          description : 'test de description pour asset 3D',
+          id : 0,
+          name : '3D'
+        },
+        {
+          description : 'test de description pour image',
+          id : 1,
+          name : 'Img'
+        });
+  }
+
   SendAsset() : void {
-    
+
   }
 
 
