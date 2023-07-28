@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import assetsJson from './../../models/fakeDataAssets.json';
 import { asset, fileHandle, typeAsset } from 'src/app/models/asset';
+import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-add-assets',
   templateUrl: './add-assets.component.html',
@@ -15,11 +16,10 @@ export class AddAssetsComponent implements OnInit {
    files : fileHandle[];
    assetToSend: asset;
 
+   apiTypeAsset : string = "TypeMaterial";
+   apiAsset : string = "/asset";
 
-
-
-
-  constructor() { 
+  constructor(private apiService : ApiService<typeAsset>) { 
     this.assets = [];
     this.typeAssets = [];
     this.files = [];
@@ -43,6 +43,7 @@ export class AddAssetsComponent implements OnInit {
   }
 
   getAssetType() : void {
+    /*
     this.typeAssets.push(
         {
           description : 'test de description pour asset 3D',
@@ -54,11 +55,14 @@ export class AddAssetsComponent implements OnInit {
           id : 1,
           name : 'Img'
         });
+        */
+      this.apiService.getAll(this.apiTypeAsset).subscribe(data => {
+        this.typeAssets = data;
+      });
   }
 
   SendAsset() : void {
 
   }
-
 
 }

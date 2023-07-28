@@ -9,29 +9,30 @@ const API_URL = 'https://localhost:7279/api';
   providedIn: 'root'
 })
 
-export class ApiService {
+export class ApiService<T> {
 
   constructor(private httpClient: HttpClient) {
 
    }
 
-   getAll(nameURL : string): Observable<any> {
-    return this.httpClient.get(`${API_URL}/${nameURL}`);
+   getAll(nameURL : string): Observable<T[]> {
+    console.log(`${API_URL}/${nameURL}`);
+    return this.httpClient.get<T[]>(`${API_URL}/${nameURL}`);
    }
 
-    get(nameURL : string,id: any): Observable<any> {
-    return this.httpClient.get(`${API_URL}/${nameURL}/${id}`);
+    get(nameURL : string,id: number): Observable<T> {
+    return this.httpClient.get<T>(`${API_URL}/${nameURL}/${id}`);
     }
 
-    create(nameURL : string,data: any): Observable<any> {
-    return this.httpClient.post(`${API_URL}/${nameURL}`, data);
+    create(nameURL : string,data: any): Observable<T> {
+    return this.httpClient.post<T>(`${API_URL}/${nameURL}`, data);
     }
 
-    update(nameURL : string,id: any, data: any): Observable<any> { 
-    return this.httpClient.patch(`${API_URL}/${nameURL}/${id}`, data);
+    update(nameURL : string,id: number, data: any): Observable<T> { 
+    return this.httpClient.patch<T>(`${API_URL}/${nameURL}/${id}`, data);
     }
 
-    delete(nameURL : string,id: any): Observable<any> {
-    return this.httpClient.delete(`${API_URL}/${nameURL}/${id}`);
+    delete(nameURL : string,id: number): Observable<T> {
+    return this.httpClient.delete<T>(`${API_URL}/${nameURL}/${id}`);
     }
 }
