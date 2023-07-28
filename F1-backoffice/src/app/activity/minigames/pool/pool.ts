@@ -1,18 +1,42 @@
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
+import { GameEngineService } from 'src/app/services/game-engine.service';
 import { MiniGameState } from "../IMiniGame";
 import{IMiniGame} from "../IMiniGame";
 
 
 
 export enum PoolGameState {
-    CHANGE_DIRECTION,
-    ADJUST_POWER,
-    WAITING_FOR_BALL,
-    CHANGE_PLAYER,
+    NONE,
+    WAIT,
+    POSITION_BALL,
+    DIRECTION_BALL,
+    POWER_BALL,
+    WAITING_SHOT_RESULT_AND_CHECK_RULES,
+    CHECK_RULES,
+    ENDGAME
 };
 
+export enum TypePoolBall {
+    WHITE,
+    BLACK,
+    FULL,
+    STRIPE
+}
 
+export class PoolBall {
+    
+    mesh !: Mesh;
+    id !: number;
+    position !: number;
+    numero !: number;
+    color !: number;
+    type !: TypePoolBall;
+    isPotted : boolean;
 
+    constructor() {
+        this.isPotted = false;
+    }
+}
 
 export class PoolTable {
 
@@ -24,12 +48,56 @@ export class PoolTable {
 }
 
 
+
+export class PoolGameProcess {
+
+    gamePhases : PoolGameState[];
+    currentPhase : PoolGameState;
+
+
+    constructor() {
+        this.gamePhases = [];
+        this.currentPhase = PoolGameState.NONE;
+    }
+
+    SetupGameProcess() : void {
+        this.gamePhases.push(PoolGameState.WAIT);
+        this.gamePhases.push(PoolGameState.POSITION_BALL);
+        this.gamePhases.push(PoolGameState.DIRECTION_BALL);
+        this.gamePhases.push(PoolGameState.POWER_BALL);
+        this.gamePhases.push(PoolGameState.WAITING_SHOT_RESULT_AND_CHECK_RULES);
+        this.gamePhases.push(PoolGameState.CHECK_RULES);
+        this.gamePhases.push(PoolGameState.ENDGAME);
+    }    
+}
+
+export class Asset3D {
+
+        id ?: number;
+        name ?: string;
+        nameFile ?: string;
+        path ?: string;
+        type ?: string;
+}
+
+export class PoolGameInformation {
+
+    poolTableAsset ?: Asset3D;
+    poolBallsAssets ?: Asset3D[];
+    poolWhiteBallAsset ?: Asset3D;
+    poolBlackBallAsset ?: Asset3D;
+}
+
+
+
 export class Pool implements IMiniGame {
 
     stateMiniGame : MiniGameState;
+    gameEngineService : GameEngineService;
 
-    public constructor() {
+    public constructor(gameEngineService : GameEngineService) {
         this.stateMiniGame = MiniGameState.LOADING;
+        this.gameEngineService = gameEngineService;
     }
 
     Load(): void {
@@ -48,6 +116,10 @@ export class Pool implements IMiniGame {
         return this.stateMiniGame; 
     }
 
+    CreateMainUIDisplay(){
+       var ui = this.gameEngineService.GetFullScreenUI();
+       // 
+    }
 
     PrepareChangeDirection(): void {
         // load orbit camera
@@ -75,7 +147,7 @@ export class Pool implements IMiniGame {
 
     PrepareWaitingForBall(): void {
 
-        // set tatget camera to pool table
+        // set target camera to pool table
 
         // set camera position to pool table
 
@@ -89,6 +161,4 @@ export class Pool implements IMiniGame {
     PrepareChangePlayer(): void {
         throw new Error("Method PrepareChangePlayer not implemented.");
     }
-
-
 }

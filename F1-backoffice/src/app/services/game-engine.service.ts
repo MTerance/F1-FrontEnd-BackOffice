@@ -1,9 +1,11 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer } from '@babylonjs/core';
+import { Mesh } from "@babylonjs/core/Meshes/mesh";
+import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer, Matrix } from '@babylonjs/core';
 import "@babylonjs/loaders/glTF";
 import { OBJFileLoader } from '@Babylonjs/loaders/OBJ';
 import * as CANNON from 'cannon-es';
 import { AdvancedDynamicTexture, TextBlock } from '@babylonjs/gui';
+import { ActionManager } from '@babylonjs/core/Actions/actionManager';
 
 //import { DebugLayer } from  '@babylonjs/core/Debug/debugLayer';
 //import { Inspector }from '@babylonjs/inspector';
@@ -11,11 +13,19 @@ import { AdvancedDynamicTexture, TextBlock } from '@babylonjs/gui';
 //import "babylonjs/loaders/glTF";
 //import "babylonjs/loaders/glTF";
 
+export enum GizmoType {
+  Sphere,
+  Cylinder,
+  Cube,
+  Mesh
+}
+
 SceneLoader.RegisterPlugin(new OBJFileLoader());
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class GameEngineService {
 
   engine ?: Engine;
@@ -32,13 +42,22 @@ export class GameEngineService {
     this.gizmoManager = new GizmoManager(this.scene);
 
     this.gizmoManager.positionGizmoEnabled = true;
-    this.gizmoManager.scaleGizmoEnabled = true;
-    
+    this.gizmoManager.scaleGizmoEnabled = false;
+    this.gizmoManager.boundingBoxGizmoEnabled = false;
+    //this.gizmoManager.usePointerToAttachGizmos = false;
     const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
 
     camera.setTarget(Vector3.Zero());
 
     camera.attachControl(canvas.nativeElement, true);
+
+    window.CANNON = CANNON;
+    const gravity = -9.81; // m/s^2
+    const gravityVector = new Vector3(0, gravity, 0);
+    const physicsPlugin = new CannonJSPlugin();
+    this.scene.enablePhysics(gravityVector, physicsPlugin);
+    this.physicsViewer = new PhysicsViewer(this.scene);
+
 
     this.ui = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.scene);
 
@@ -48,23 +67,21 @@ export class GameEngineService {
     test.fontSize = 24;
     this.ui.addControl(test);
 
-
-
-
-
-    window.CANNON = CANNON;
-    const gravity = -9.81; // m/s^2
-    const gravityVector = new Vector3(0, gravity, 0);
-    const physicsPlugin = new CannonJSPlugin();
-    this.scene.enablePhysics(gravityVector, physicsPlugin);
-
-
     const light = new HemisphericLight("light", new Vector3(0, 1, 0), this.scene);
 
      // import the pool table
-     this.physicsViewer = new PhysicsViewer(this.scene);
 
-     const that = this;
+    light.intensity = 0.7;
+    }
+
+    GetFullScreenUI() : AdvancedDynamicTexture {
+      return this.ui!;
+    }
+
+
+    CreateExampleScene() {
+
+      const that = this;
      
       SceneLoader.ImportMesh("PoolTable", "assets/pool/", "poolTable.glb", this.scene, (meshes) => {
         meshes.forEach((mesh) => { console.log(mesh.name); });
@@ -81,13 +98,14 @@ export class GameEngineService {
       const ground = MeshBuilder.CreateGround("ground", { width: 10, height: 10 }, this.scene);
       ground.physicsImpostor = new PhysicsImpostor(ground, PhysicsImpostor.PlaneImpostor, { mass: 0, friction: 1 }, this.scene);
       ground.checkCollisions = true;
-      this.physicsViewer.showImpostor(ground.physicsImpostor!);
+   //   if (this.physicsViewer)
+        this.physicsViewer?.showImpostor(ground.physicsImpostor!);
     // import the ball
     const faceUvMaterial = [];
 
     faceUvMaterial[0] = new Vector4(0, 0, 0.33, 0.16);
 
-    const sphere = MeshBuilder.CreateSphere("sphere", {diameter: 0.4,frontUVs : faceUvMaterial[0] }, this.scene);
+    const sphere = MeshBuilder.CreateSphere("sphere", {diameter: 0.33,frontUVs : faceUvMaterial[0] }, this.scene);
 
 
     const textureBallPool = new Texture("./assets/pool/1Ball.png", this.scene) ;
@@ -96,13 +114,29 @@ export class GameEngineService {
     materialBallPool.diffuseTexture = textureBallPool;
     sphere.material = materialBallPool;
     sphere.physicsImpostor = new PhysicsImpostor(sphere, PhysicsImpostor.SphereImpostor, { mass: 1, friction: 0.9 }, this.scene);
-    //this.physicsViewer.showImpostor(sphere.physicsImpostor!);
+   // this.physicsViewer?.showImpostor(sphere.physicsImpostor!);
     sphere.position = new Vector3(0, 10, 0);
     sphere.checkCollisions = true;
-    light.intensity = 0.7;
 
+    console.log( sphere.uniqueId);
+    console.log( sphere.id);    
 
     }
+    testDisplayGizmoSphere() {
+
+     var sphere = this.scene?.getMeshById("sphere");
+      if (sphere)
+        this.gizmoManager?.attachToMesh(sphere);
+    }
+
+    SetGizmoSphereOnMeshById(idMesh : string)
+    {
+      var mesh = this.scene?.getMeshById(idMesh)
+      if (mesh)
+        this.gizmoManager?.attachToMesh(mesh);
+    }
+
+
 
     LoadModel(file : File) {
       console.log(file.name);      
@@ -110,6 +144,82 @@ export class GameEngineService {
         this.gizmoManager?.attachToMesh(meshes[0]);
       });
   }
+
+  DeleteModel(meshName : string) {
+    var mesh = this.scene?.getMeshByName(meshName);
+    if (mesh != null)
+      this.scene?.removeMesh(mesh,true);
+  }
+
+    createGizmoModel(idModel : string, gizmoType : GizmoType, modelParentName : string = "") : Mesh
+    {
+      let mesh !: Mesh;
+      switch (gizmoType) {
+        case GizmoType.Sphere:
+          mesh = MeshBuilder.CreateSphere(idModel, {diameter: 0.33, }, this.scene);
+          mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.SphereImpostor, { mass: 0, friction: 1 }, this.scene);
+          break;
+        case GizmoType.Cylinder:
+          mesh = MeshBuilder.CreateCylinder(idModel, {diameter: 0.33, height: 0.33 }, this.scene);
+          mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.CylinderImpostor, { mass: 0, friction: 1 }, this.scene);
+          break;
+        case GizmoType.Cube:
+        default:
+          mesh = MeshBuilder.CreateBox(idModel, {width: 0.33, height: 0.33, depth: 0.33 }, this.scene);
+          mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.BoxImpostor, { mass: 0, friction: 0.9 }, this.scene);
+          break;
+      }
+
+      if (modelParentName && modelParentName !== "")
+      {
+        var parentMesh : Mesh = this.GetMeshById(modelParentName) as Mesh;
+        console.log(modelParentName);
+        parentMesh.addChild(mesh);
+
+      }
+      mesh.checkCollisions = true;
+      mesh.position = new Vector3(0,6,0);
+      return mesh;
+    }
+
+    deleteMeshById(idMesh : string) : boolean
+    {
+      let mesh = this.scene?.getMeshByName(idMesh);
+      if (mesh)
+      {
+//        this.gizmoManager?.onAttachedToMeshObservable.;
+        this.scene?.removeMesh(mesh,true);
+        mesh.dispose();
+        return true;
+      }
+    return false;
+
+    }
+
+    GetMeshById(idMesh : string) : Mesh | null
+    {
+      let mesh = this.scene?.getMeshByName(idMesh);
+      if (mesh)
+      {
+        return mesh as Mesh;
+      }
+    return null;
+    }
+
+    testTransformRelativePosition(targetName : string,sourceName : string)
+    {
+      var targetMesh = this.GetMeshById(targetName);
+      var sourceMesh = this.GetMeshById(sourceName);
+
+      if (targetMesh && sourceMesh)
+      {
+//        sourceMesh?.setPositionWithLocalVector(targetMesh?.position);
+          let m = new Matrix();
+          sourceMesh.computeWorldMatrix().invertToRef(m);
+          sourceMesh.position = Vector3.TransformCoordinates(targetMesh.position,m);
+      }
+    }
+
 
     StartRenderLoop() {
       this.engine?.runRenderLoop(() => {

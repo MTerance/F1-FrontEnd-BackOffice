@@ -8,6 +8,9 @@ import('./f1-race/f1-race.module')
 {path: 'asset-manager',loadChildren:() =>
 import('./asset-manager/asset-manager.module')
 .then((m) => m.AssetManagerModule),pathMatch:'prefix'},
+{path: 'activity-manager',loadChildren:() =>
+import('./activity/activity-manager/activity-manager.module')
+.then((m) => m.ActivityManagerModule),pathMatch:'prefix'},
 {path:'', redirectTo:'f1-race', pathMatch:'full'},
 {path:'**', redirectTo:'f1-race'}
 
