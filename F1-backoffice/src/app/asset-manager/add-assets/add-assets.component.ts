@@ -19,7 +19,7 @@ export class AddAssetsComponent implements OnInit {
    apiTypeAsset : string = "TypeMaterial";
    apiAsset : string = "/asset";
 
-  constructor(private apiService : ApiService<typeAsset>) { 
+  constructor(private apiService : ApiService<typeAsset>, private assetApiService : ApiService<asset>) { 
     this.assets = [];
     this.typeAssets = [];
     this.files = [];
@@ -43,21 +43,11 @@ export class AddAssetsComponent implements OnInit {
   }
 
   getAssetType() : void {
-    /*
-    this.typeAssets.push(
-        {
-          description : 'test de description pour asset 3D',
-          id : 0,
-          name : '3D'
-        },
-        {
-          description : 'test de description pour image',
-          id : 1,
-          name : 'Img'
-        });
-        */
       this.apiService.getAll(this.apiTypeAsset).subscribe(data => {
         this.typeAssets = data;
+        this.assetApiService.getAll(this.apiAsset).subscribe(data=> {
+          this.assets = data;
+        });
       });
   }
 
