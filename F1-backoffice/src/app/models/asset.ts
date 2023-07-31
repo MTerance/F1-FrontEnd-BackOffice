@@ -1,4 +1,12 @@
 import { SafeUrl } from "@angular/platform-browser";
+import { FormControl } from "@angular/forms";
+
+export interface assetForm {
+
+    name : FormControl<string | null>;
+    description : FormControl<string | null>;
+    file : FormControl<fileHandle | null>;
+  }
 
 
 export interface typeAsset {

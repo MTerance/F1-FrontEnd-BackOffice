@@ -39,24 +39,34 @@
             </div>
           </ng-container>
         </div>
-
         <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
+              <form [formGroup]= "assetForm" (ngSubmit)="sendAsset()">
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title fs-5" id="exampleModalLabel">add a new 3D model</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="container dropZoneAsset" appDnd >
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Name of asset</label>
+                    <input type="text" class="form-control" formControlName="name"  placeholder="Name of asset">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Description of asset</label>
+                    <input type="text" class="form-control" formControlName="description" placeholder="Description">
+                  </div>
+                  <div class="container dropZoneAsset" appDnd (filesDropped)="onFilesDropped($event)">
                     <canvas style="width:100%;height:100%;touch-action:none;border:1px solid #000000;">
                     </canvas>
+                    <input type="file" class="form-control" formControlName="file"/>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">Save changes</button>
                 </div>
               </div>
+            </form>
             </div>
           </div>
