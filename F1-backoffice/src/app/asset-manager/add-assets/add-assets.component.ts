@@ -19,7 +19,7 @@ export class AddAssetsComponent implements OnInit {
    apiTypeAsset : string = "TypeMaterial";
    apiAsset : string = "/asset";
 
-  constructor(private apiService : ApiService<typeAsset>) { 
+  constructor(private apiAssetTypeService : ApiService<typeAsset>, private apiAssetService : ApiService<asset>) { 
     this.assets = [];
     this.typeAssets = [];
     this.files = [];
@@ -43,25 +43,18 @@ export class AddAssetsComponent implements OnInit {
   }
 
   getAssetType() : void {
-    /*
-    this.typeAssets.push(
-        {
-          description : 'test de description pour asset 3D',
-          id : 0,
-          name : '3D'
-        },
-        {
-          description : 'test de description pour image',
-          id : 1,
-          name : 'Img'
-        });
-        */
-      this.apiService.getAll(this.apiTypeAsset).subscribe(data => {
+      this.apiAssetTypeService.getAll(this.apiTypeAsset).subscribe(data => {
         this.typeAssets = data;
       });
   }
 
-  SendAsset() : void {
+  saveAsset(asset : asset) : void {
+    console.log(this.assetToSend);
+    // post the asset to the API
+
+    // get the id and the namefile of the asset
+
+    // save into the folder assets
 
   }
 
