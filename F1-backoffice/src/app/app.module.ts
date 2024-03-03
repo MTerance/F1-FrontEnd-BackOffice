@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './shared/shared.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { GameComponent } from './activity/games/soccer/game/game.component';
+import { SoccerFieldBuilderComponent } from './activity/games/soccer/soccer-field-builder/soccer-field-builder.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { GameComponent } from './activity/games/soccer/game/game.component';
     PanelComponentComponent,
     ModalComponent,
     GameComponent,
+    SoccerFieldBuilderComponent,
   ],
   imports: [
     HttpClientModule,

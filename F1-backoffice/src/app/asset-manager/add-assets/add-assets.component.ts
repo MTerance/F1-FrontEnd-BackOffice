@@ -48,10 +48,13 @@ export class AddAssetsComponent implements OnInit {
       });
   }
 
-  saveAsset(asset : asset) : void {
+  saveAsset(assetObj : asset) : void {
+
     console.log(this.assetToSend);
     // post the asset to the API
-
+    this.apiAssetService.create(this.apiAsset, this.assetToSend).subscribe(data => {
+      console.log(data);
+    });
     // get the id and the namefile of the asset
 
     // save into the folder assets
