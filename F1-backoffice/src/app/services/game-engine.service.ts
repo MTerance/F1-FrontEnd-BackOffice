@@ -79,6 +79,19 @@ export class GameEngineService {
     }
 
 
+    LoadMesh(nameAsset: string, filePath:string, fileName: string, position: Vector3 = new Vector3(0, 0, 0)) {
+      SceneLoader.ImportMesh(nameAsset, filePath, fileName, this.scene, (meshes) => {
+        meshes.forEach((mesh) => { 
+          console.log(mesh.name); 
+          mesh.position = position;
+        });
+      });
+    }
+
+
+
+
+
     CreateExampleScene() {
 
       const that = this;
@@ -138,7 +151,10 @@ export class GameEngineService {
         this.gizmoManager?.attachToMesh(mesh);
     }
 
-
+    CreatePlane(nameplane : string = "plane")
+    {
+      var plane = MeshBuilder.CreatePlane(nameplane, {width: 5, height: 5}, this.scene);
+    }
 
     LoadModel(file : File) {
       console.log(file.name);      
