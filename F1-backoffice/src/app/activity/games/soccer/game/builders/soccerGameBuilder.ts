@@ -2,13 +2,13 @@ import { SoccerField, SoccerGame, SoccerTeam, SoccerPlayer } from "../models/mod
 
 export class SoccerGameBuilder {
 
-    CreateGame() : SoccerGame {
+    private CreateGame() : SoccerGame {
         var game = new SoccerGame();
         game.currentField = this.CreateField();
         return game;
     }
 
-    CreateField() : SoccerField {
+    private CreateField() : SoccerField {
         var field = new SoccerField();
         field.name = "Field 1";
         field.description = "Field 1";
@@ -22,7 +22,7 @@ export class SoccerGameBuilder {
         return field;
     }
 
-    CreateTeams() : SoccerTeam[] {
+    private CreateTeams() : SoccerTeam[] {
         var teams = [];
         var team1 = new SoccerTeam();
         team1.name = "Team 1";
@@ -37,7 +37,7 @@ export class SoccerGameBuilder {
         return teams;
     }
 
-    CreatePlayers() : SoccerPlayer[] {
+    private CreatePlayers() : SoccerPlayer[] {
 
         var players = [];
 
@@ -47,5 +47,10 @@ export class SoccerGameBuilder {
         }
         return players;
     }
+
+    public Build() : SoccerGame {
+        return this.CreateGame();
+    }
+
   }
 

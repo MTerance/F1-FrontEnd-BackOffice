@@ -57,10 +57,11 @@
                     <label> Asset description </label>
                     <input type="text" class="form-control" id="description" required />
                   </div>                  
-                  <div class="container dropZoneAsset" appDnd >
+                  <div class="container dropZoneAsset" (filesDropped) = "onFilesDropped($event)"  appDnd >
                     <label> Asset file </label>
                     <canvas style="width:100%;height:90%;touch-action:none;border:1px solid #000000;">
                     </canvas>
+                    <label *ngFor="let file of files"> {{ file.file.name }} </label>
                   </div>
                   <div class="container">
                     <label> asset type </label>

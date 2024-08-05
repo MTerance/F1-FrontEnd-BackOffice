@@ -39,6 +39,9 @@ export class AddAssetsComponent implements OnInit {
 
   onFilesDropped(files : fileHandle[]) : void {
    this.files = files;
+   files.forEach(file => {
+    console.log(file.file.name);
+   });
     console.log(this.files.length);
   }
 
