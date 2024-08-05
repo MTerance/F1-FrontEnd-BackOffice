@@ -34,6 +34,7 @@ export class AddAssetsComponent implements OnInit {
       pathFile: "",      
       };
       this.getAssetType();
+      this.getAssets();
   }
 
   ngOnInit(): void {
@@ -48,12 +49,15 @@ export class AddAssetsComponent implements OnInit {
     console.log(this.files.length);
   }
 
+  getAssets() : void {
+    this.apiAssetService.getAll(this.apiAsset).subscribe(data => {
+      this.assets = data;
+    });
+  }
+
   getAssetType() : void {
       this.apiAssetTypeService.getAll(this.apiTypeAsset).subscribe(data => {
         this.typeAssets = data;
-        this.assetApiService.getAll(this.apiAsset).subscribe(data=> {
-          this.assets = data;
-        });
       });
   }
 
