@@ -51,6 +51,9 @@ export class AddAssetsComponent implements OnInit {
   getAssetType() : void {
       this.apiAssetTypeService.getAll(this.apiTypeAsset).subscribe(data => {
         this.typeAssets = data;
+        this.assetApiService.getAll(this.apiAsset).subscribe(data=> {
+          this.assets = data;
+        });
       });
   }
 
