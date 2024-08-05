@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AzureContainerService } from 'src/app/services/azure-container.service';
 import assetsJson from './../../models/fakeDataAssets.json';
 import { asset, fileHandle, typeAsset } from 'src/app/models/asset';
 import { ApiService } from 'src/app/services/api.service';
-import { AzureContainerService } from 'src/app/services/azure-container.service';
+
 @Component({
   selector: 'app-add-assets',
   templateUrl: './add-assets.component.html',
