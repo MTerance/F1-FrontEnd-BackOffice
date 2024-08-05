@@ -10,9 +10,9 @@ export class DndDirective implements OnInit {
   @Output() filesDropped: EventEmitter<fileHandle[]> = new EventEmitter<fileHandle[]>();
 
   @HostBinding('class.dropZoneAsset') fileOver: boolean = false;
-  @HostBinding("style.background") background : string = "#eee";
+  @HostBinding("style.background") background : string = "#fff";
 
-  constructor(private sanitizer : DomSanitizer) { console.log("TEST"); }
+  constructor(private sanitizer : DomSanitizer) { console.log("TEST CONSTRUCTOR"); }
 
   ngOnInit() : void{
     console.log('--------------------------------------------------');
@@ -21,7 +21,7 @@ export class DndDirective implements OnInit {
    @HostListener("mouseover",["$event"]) public onMouseEvent(evt: Event) {
     evt.preventDefault();
     evt.stopPropagation();
-    console.log("TEST");
+    console.log("TEST MOUSE OVER");
    }
 
 
@@ -51,11 +51,12 @@ export class DndDirective implements OnInit {
     {
       for (let i = 0; i < evt.dataTransfer?.files?.length; i++) {
         const file = evt.dataTransfer?.files[i];
-        console.log(file.name);
+        console.log(file.name + ' DROPPED');
         const url = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(file));
         files.push({ file , url});
       }
       if (files.length > 0) {
+        console.log("Files emitted");
         this.filesDropped.emit(files);
       }
     }

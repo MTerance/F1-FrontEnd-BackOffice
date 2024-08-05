@@ -13,6 +13,8 @@ import { ModalComponent } from './components/modal/modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './shared/shared.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { GameComponent } from './activity/games/soccer/game/game.component';
+import { SoccerFieldBuilderComponent } from './activity/games/soccer/soccer-field-builder/soccer-field-builder.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     UnoBuilderComponent,
     PanelComponentComponent,
     ModalComponent,
+    GameComponent,
+    SoccerFieldBuilderComponent,
   ],
   imports: [
     HttpClientModule,

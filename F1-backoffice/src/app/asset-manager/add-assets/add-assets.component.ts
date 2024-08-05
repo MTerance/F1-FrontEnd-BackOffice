@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import assetsJson from './../../models/fakeDataAssets.json';
 import { asset, fileHandle, typeAsset } from 'src/app/models/asset';
 import { ApiService } from 'src/app/services/api.service';
+import { AzureContainerService } from 'src/app/services/azure-container.service';
 @Component({
   selector: 'app-add-assets',
   templateUrl: './add-assets.component.html',
@@ -19,7 +20,9 @@ export class AddAssetsComponent implements OnInit {
    apiTypeAsset : string = "TypeMaterial";
    apiAsset : string = "/asset";
 
-  constructor(private apiService : ApiService<typeAsset>, private assetApiService : ApiService<asset>) { 
+  constructor(private apiAssetTypeService : ApiService<typeAsset>,
+     private apiAssetService : ApiService<asset>,
+    private azureContainerService : AzureContainerService) { 
     this.assets = [];
     this.typeAssets = [];
     this.files = [];
@@ -39,11 +42,14 @@ export class AddAssetsComponent implements OnInit {
 
   onFilesDropped(files : fileHandle[]) : void {
    this.files = files;
+   files.forEach(file => {
+    console.log(file.file.name);
+   });
     console.log(this.files.length);
   }
 
   getAssetType() : void {
-      this.apiService.getAll(this.apiTypeAsset).subscribe(data => {
+      this.apiAssetTypeService.getAll(this.apiTypeAsset).subscribe(data => {
         this.typeAssets = data;
         this.assetApiService.getAll(this.apiAsset).subscribe(data=> {
           this.assets = data;
@@ -51,7 +57,17 @@ export class AddAssetsComponent implements OnInit {
       });
   }
 
-  SendAsset() : void {
+  saveAsset(assetObj : asset) : void {
+
+    console.log(this.assetToSend);
+    // post the asset to the API
+    this.apiAssetService.create(this.apiAsset, this.assetToSend).subscribe(data => {
+      console.log(data);
+      this.azureContainerService.CreateFile(this.files[0].file, assetObj.name , data.nameFile);
+    });
+    // get the id and the namefile of the asset
+
+    // save into the folder assets
 
   }
 

@@ -5,6 +5,7 @@ import { AssetManagerRoutingModule } from './asset-manager-routing.module';
 import { AddAssetsComponent } from './add-assets/add-assets.component';
 import { SharedModule } from '../shared/shared.module';
 import { DndDirective } from '../directives/dnd.directive';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { DndDirective } from '../directives/dnd.directive';
   imports: [
     CommonModule,
     AssetManagerRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ],
   exports:[AddAssetsComponent]
 })

@@ -1,4 +1,4 @@
-<i class="bi-search">number of assets : {{ assets.length }}</i>
+<i class="bi-search"> Number of assets : {{ assets.length }}</i>
         <div class="col-3">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add a new 3D asset
@@ -42,21 +42,40 @@
 
         <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
+              <form #assetForm="ngForm" (ngSubmit)="saveAsset(assetToSend)">
               <div class="modal-content">
                 <div class="modal-header">
                   <h1 class="modal-title fs-5" id="exampleModalLabel">add a new 3D model</h1>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <div class="container dropZoneAsset" appDnd >
-                    <canvas style="width:100%;height:100%;touch-action:none;border:1px solid #000000;">
+                  <div class="container">
+                    <label> Asset name </label>
+                    <input type="text" class="form-control" id="name" name="name" ([ngModel])="assetToSend.name" required />
+                  </div>
+                  <div class="container">
+                    <label> Asset description </label>
+                    <input type="text" class="form-control" id="description" required />
+                  </div>                  
+                  <div class="container dropZoneAsset" (filesDropped) = "onFilesDropped($event)"  appDnd >
+                    <label> Asset file </label>
+                    <canvas style="width:100%;height:90%;touch-action:none;border:1px solid #000000;">
                     </canvas>
+                    <label *ngFor="let file of files"> {{ file.file.name }} </label>
+                  </div>
+                  <div class="container">
+                    <label> asset type </label>
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected>Select the type of asset </option>
+                      <option *ngFor="let assetType of typeAssets" [value]="assetType.id">{{ assetType.name }}</option>
+                    </select>
                   </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="submit" value="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
                 </div>
               </div>
+            </form>
             </div>
           </div>
