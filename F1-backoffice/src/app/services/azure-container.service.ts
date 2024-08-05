@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { DefaultAzureCredential } from '@azure/identity';
 
+
+const accountName = process.env['AZURE_STORAGE_ACCOUNT_NAME'] as string;
+
 @Injectable({
   providedIn: 'root'
 })
-
-const accountName = process.env['AZURE_STORAGE_ACCOUNT_NAME'] as string;
 
 export class AzureContainerService {
 
