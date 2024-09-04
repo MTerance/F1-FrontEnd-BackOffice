@@ -3,7 +3,7 @@ import { BlobServiceClient } from '@azure/storage-blob';
 import { DefaultAzureCredential, InteractiveBrowserCredential } from '@azure/identity';
 
 
-const accountName = "blob";  //['AZURE_STORAGE_ACCOUNT_NAME'] as string;
+const accountName = process.env['AZURE_STORAGE_ACCOUNT_NAME'] as string;
 
 const credentials= new InteractiveBrowserCredential({
   tenantId: 'common',

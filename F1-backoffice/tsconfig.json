@@ -25,6 +25,7 @@
       "dom"
     ],
     "types": [
+      "node",
       "babylonjs",
       "babylonjs-gui"
     ],
