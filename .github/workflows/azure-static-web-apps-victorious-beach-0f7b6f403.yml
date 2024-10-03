@@ -16,6 +16,7 @@ jobs:
       - name: Build
         id: build
         run: |
+          cd F1-backoffice
           npm install
           ng build --prod        
       - name: Deploy
