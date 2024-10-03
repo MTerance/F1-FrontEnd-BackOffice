@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BlobServiceClient } from '@azure/storage-blob';
-import { DefaultAzureCredential } from '@azure/identity';
+import { DefaultAzureCredential, InteractiveBrowserCredential } from '@azure/identity';
 
 
 const accountName = process.env['AZURE_STORAGE_ACCOUNT_NAME'] as string;
+
+const credentials= new InteractiveBrowserCredential({
+  tenantId: 'common',
+  clientId: '04b07795-8ddb-461a-bbee-02f9e1bf7b46'
+});
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +19,9 @@ export class AzureContainerService {
   private blobServiceClient: BlobServiceClient;
 
   constructor() {
-    this.blobServiceClient = new BlobServiceClient(
+    this.blobServiceClient =  new BlobServiceClient(
       `https://${accountName}.blob.core.windows.net`,
-      new DefaultAzureCredential()
-    );
+      credentials);
    }
 
   async CreateFile(file: File, containerName: string, blobName: string) {

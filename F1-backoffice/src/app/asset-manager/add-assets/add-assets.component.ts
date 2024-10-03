@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AzureContainerService } from 'src/app/services/azure-container.service';
 import assetsJson from './../../models/fakeDataAssets.json';
 import { asset, fileHandle, typeAsset } from 'src/app/models/asset';
 import { ApiService } from 'src/app/services/api.service';
-import { AzureContainerService } from 'src/app/services/azure-container.service';
+
 @Component({
   selector: 'app-add-assets',
   templateUrl: './add-assets.component.html',
@@ -34,6 +35,7 @@ export class AddAssetsComponent implements OnInit {
       pathFile: "",      
       };
       this.getAssetType();
+      this.getAssets();
   }
 
   ngOnInit(): void {
@@ -48,12 +50,15 @@ export class AddAssetsComponent implements OnInit {
     console.log(this.files.length);
   }
 
+  getAssets() : void {
+    this.apiAssetService.getAll(this.apiAsset).subscribe(data => {
+      this.assets = data;
+    });
+  }
+
   getAssetType() : void {
       this.apiAssetTypeService.getAll(this.apiTypeAsset).subscribe(data => {
         this.typeAssets = data;
-        this.assetApiService.getAll(this.apiAsset).subscribe(data=> {
-          this.assets = data;
-        });
       });
   }
 

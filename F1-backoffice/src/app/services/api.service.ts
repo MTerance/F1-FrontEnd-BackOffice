@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
-const API_URL = 'https://localhost:7279/api';
+const API_URL = process.env['API_ADRESS'] as string;
 
 @Injectable({
   providedIn: 'root'
