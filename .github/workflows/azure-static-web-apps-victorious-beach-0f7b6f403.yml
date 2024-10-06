@@ -38,7 +38,7 @@ jobs:
           # Action to perform
           action: "upload"
           # Directory location of the application source code
-          app_location: "./F1-backoffice/F1-backoffice"
+          app_location: "./F1-backoffice"
           # Required token
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_BEACH_0F7B6F403 }}
           # Directory location of the Azure Functions source code
