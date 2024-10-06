@@ -27,7 +27,9 @@
     "types": [
       "node",
       "babylonjs",
-      "babylonjs-gui"
+      "babylonjs-gui",
+      "babylonjs-loaders",
+      "babylonjs-gltf2interface"
     ],
     "useDefineForClassFields": false
   },
