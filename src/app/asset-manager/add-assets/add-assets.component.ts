@@ -19,7 +19,7 @@ export class AddAssetsComponent implements OnInit {
    assetToSend: asset;
 
    apiTypeAsset : string = "TypeMaterial";
-   apiAsset : string = "/asset";
+   apiAsset : string = "asset";
 
   constructor(private apiAssetTypeService : ApiService<typeAsset>,
      private apiAssetService : ApiService<asset>,
@@ -39,6 +39,7 @@ export class AddAssetsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(assetsJson);
     this.assets = assetsJson;
   }
 
@@ -51,6 +52,7 @@ export class AddAssetsComponent implements OnInit {
   }
 
   getAssets() : void {
+    console.log("get assets : {0}", this.apiAsset);
     this.apiAssetService.getAll(this.apiAsset).subscribe(data => {
       this.assets = data;
     });
