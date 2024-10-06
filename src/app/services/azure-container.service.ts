@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { DefaultAzureCredential, InteractiveBrowserCredential } from '@azure/identity';
+import { environment } from 'src/environments/environment';
 
 
-const accountName = process.env['AZURE_STORAGE_ACCOUNT_NAME'] as string;
+const accountName = environment.AZURE_STORAGE_ACCOUNT_NAME as string;
 
 const credentials= new InteractiveBrowserCredential({
   tenantId: 'common',
