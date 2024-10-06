@@ -1,8 +1,8 @@
 import { ElementRef, Injectable } from '@angular/core';
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 import { Engine, FilesInput,PhysicsImpostor,CannonJSPlugin, FreeCamera, GizmoManager, HemisphericLight, MeshBuilder, Scene, SceneLoader, StandardMaterial, Texture, Tools, Vector3, Vector4, AbstractMesh, PhysicsViewer, Matrix } from '@babylonjs/core';
-import "@babylonjs/loaders/glTF";
-import { OBJFileLoader } from '@Babylonjs/loaders/OBJ';
+//import "@babylonjs/loaders/glTF";
+import { OBJFileLoader } from '@babylonjs/loaders';
 import * as CANNON from 'cannon-es';
 import { AdvancedDynamicTexture, TextBlock } from '@babylonjs/gui';
 import { ActionManager } from '@babylonjs/core/Actions/actionManager';
