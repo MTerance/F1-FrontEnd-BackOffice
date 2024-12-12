@@ -1,0 +1,16 @@
+[
+    {
+        "id":0,
+        "firstName":"",
+        "lastName":"",
+        "teamId":0,
+        "position": 0,
+        "stats" : {
+            "power":5,
+            "stamina":5,
+            "resistance":5,
+            "acceleration":5,
+            "mobility": 5
+        }
+    }
+]

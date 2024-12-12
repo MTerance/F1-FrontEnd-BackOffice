@@ -45,37 +45,66 @@ export class GameEngineService {
     this.gizmoManager.scaleGizmoEnabled = false;
     this.gizmoManager.boundingBoxGizmoEnabled = false;
     //this.gizmoManager.usePointerToAttachGizmos = false;
-    const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
 
-    camera.setTarget(Vector3.Zero());
-
-    camera.attachControl(canvas.nativeElement, true);
-
-    window.CANNON = CANNON;
-    const gravity = -9.81; // m/s^2
-    const gravityVector = new Vector3(0, gravity, 0);
-    const physicsPlugin = new CannonJSPlugin();
-    this.scene.enablePhysics(gravityVector, physicsPlugin);
-    this.physicsViewer = new PhysicsViewer(this.scene);
+    this.InitCamera(canvas);
+    this.InitPhysicsEngine();
+    this.CreateTestUI();
+    this.CreateAmbienLight();
+    }
 
 
-    this.ui = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.scene);
+     private InitCamera(canvas : ElementRef<HTMLCanvasElement>)
+    {
+      const camera = new FreeCamera("camera1", new Vector3(0, 5, -10), this.scene);
 
-    var test = new TextBlock();
-    test.text = "Hello World";
-    test.color = "white";
-    test.fontSize = 24;
-    this.ui.addControl(test);
+      camera.setTarget(Vector3.Zero());
+  
+      camera.attachControl(canvas.nativeElement, true);
+  
+    }
 
-    const light = new HemisphericLight("light", new Vector3(0, 1, 0), this.scene);
 
-     // import the pool table
 
-    light.intensity = 0.7;
+    private InitPhysicsEngine()
+    {
+      if (this.scene != undefined)
+        {
+          window.CANNON = CANNON;
+          const gravity = -9.81; // m/s^2
+          const gravityVector = new Vector3(0, gravity, 0);
+          const physicsPlugin = new CannonJSPlugin();
+          this.scene.enablePhysics(gravityVector, physicsPlugin);
+          this.physicsViewer = new PhysicsViewer(this.scene);
+        }
+    }
+
+
+    private  CreateAmbienLight()
+    {
+      if (this.scene != undefined)
+        {
+          const light = new HemisphericLight("light", new Vector3(0, 1, 0), this.scene);
+          light.intensity = 0.7;
+        }
+    }
+
+    private  CreateTestUI()
+    {
+      this.ui = AdvancedDynamicTexture.CreateFullscreenUI("UI", true, this.scene);
+
+      var test = new TextBlock();
+      test.text = "Hello World";
+      test.color = "white";
+      test.fontSize = 24;
+      this.ui.addControl(test);
     }
 
     GetFullScreenUI() : AdvancedDynamicTexture {
       return this.ui!;
+    }
+
+    Init() {
+
     }
 
 
@@ -163,6 +192,8 @@ export class GameEngineService {
       });
   }
 
+
+  // create model with gizmo attached to it
     createGizmoModel(idModel : string, gizmoType : GizmoType) : Mesh
     {
       let mesh !: Mesh;
@@ -174,6 +205,12 @@ export class GameEngineService {
         case GizmoType.Cylinder:
           mesh = MeshBuilder.CreateCylinder(idModel, {diameter: 0.33, height: 0.33 }, this.scene);
           mesh.physicsImpostor = new PhysicsImpostor(mesh, PhysicsImpostor.CylinderImpostor, { mass: 0, friction: 1 }, this.scene);
+          break;
+        case GizmoType.Mesh:
+          SceneLoader.ImportMesh(idModel,"directory", "filename", this.scene, (meshes) => {
+            mesh = meshes[1] as Mesh;
+            mesh.physicsImpostor = new PhysicsImpostor(mesh,PhysicsImpostor.MeshImpostor,{ mass: 0, friction: 0.9 }, this.scene);
+           });
           break;
         case GizmoType.Cube:
         default:
