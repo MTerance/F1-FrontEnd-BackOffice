@@ -25,7 +25,6 @@ export class ApiService<T> {
    }
 
    getAll(nameURL : string): Observable<T[]> {
-    console.log(`${API_URL}/${nameURL}`);
     return this.httpClient.get<T[]>(`${API_URL}/${nameURL}`, {headers: this.header });
    }
 
