@@ -19,6 +19,8 @@
     "@angular/platform-browser-dynamic": "^15.1.5",
     "@angular/router": "^15.1.5",
     "@azure/identity": "^4.4.1",
+    "@azure/keyvault-secrets": "^4.9.0",
+    "@azure/msal-browser": "^3.27.0",
     "@azure/storage-blob": "^12.24.0",
     "@babylonjs/core": "^5.37.0",
     "@babylonjs/gui": "^5.37.0",
